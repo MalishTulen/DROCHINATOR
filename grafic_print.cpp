@@ -4,12 +4,12 @@
 #include "akinator.h"
 #include "grafic_print.h"
 
-errors_t make_grafic_dump ( tree_t* ptr_data )
+errors_t make_grafic_dump ( tree_t* ptr_data, int* amount_of_pictures )
 {
     CHECK ( ptr_data );
 
     const char  dot_file[] = "print.dot";
-    const char  output_file[] = "a.png";
+    const char  output_file[] = "a";
 
     FILE* ptr_dot_file = fopen ( "print.dot", "w" );
 
@@ -17,7 +17,7 @@ errors_t make_grafic_dump ( tree_t* ptr_data )
 
     fclose ( ptr_dot_file );
 
-    make_picture ( dot_file, output_file );
+    make_picture ( dot_file, output_file, amount_of_pictures );
 
     return ALL_GOOD;
 }
@@ -28,8 +28,13 @@ errors_t create_dot_code ( tree_t* ptr_data, FILE* ptr_dot_file )
     fprintf ( ptr_dot_file, "rankdir = TB;\n" );
 
     for ( int i = 0; i < DATA_CAPACITY; i++ )
-        fprintf ( ptr_dot_file, "node%p[ shape = record, label = \" {<f0> NODE%d(%p) | <f1> %s | <f2> prev = (%p) | { <f3> ДА ( %p ) | <f4> ПИЗДА ( %p ) } } \"];\n", &ptr_data->ptr_tree[ i ], i, &ptr_data->ptr_tree[ i ], ptr_data->ptr_tree [ i ].que_or_answ,ptr_data->ptr_tree [ i ].prev, ptr_data->ptr_tree [ i ].positive_result, ptr_data->ptr_tree [ i ].negative_result );
-
+    {
+        int checker_if_leaf = check_if_leaf ( &ptr_data->ptr_tree[ i ] );
+            if ( checker_if_leaf == LEAF )
+                fprintf ( ptr_dot_file, "node%p[ shape = record, label = \" {<f0> NODE%d(%p) | <f1> %s | <f2> prev = (%p) | { <f3> ДА ( %p ) | <f4> ПИЗДА ( %p ) } } \"];\n", &ptr_data->ptr_tree[ i ], i, &ptr_data->ptr_tree[ i ], ptr_data->ptr_tree [ i ].que_or_answ,ptr_data->ptr_tree [ i ].prev, ptr_data->ptr_tree [ i ].positive_result, ptr_data->ptr_tree [ i ].negative_result );
+            if ( checker_if_leaf == NOT_LEAF )
+                fprintf ( ptr_dot_file, "node%p[ shape = record, label = \" {<f0> NODE%d(%p) | <f1> %s? | <f2> prev = (%p) | { <f3> ДА ( %p ) | <f4> ПИЗДА ( %p ) } } \"];\n", &ptr_data->ptr_tree[ i ], i, &ptr_data->ptr_tree[ i ], ptr_data->ptr_tree [ i ].que_or_answ,ptr_data->ptr_tree [ i ].prev, ptr_data->ptr_tree [ i ].positive_result, ptr_data->ptr_tree [ i ].negative_result );
+    }
 //fprintf ( stderr, "HUI1\n");
     branch_connector ( &ptr_data->ptr_tree [ 0 ], ptr_data, ptr_dot_file );
 //fprintf ( stderr, "HUI2\n");
@@ -38,10 +43,12 @@ errors_t create_dot_code ( tree_t* ptr_data, FILE* ptr_dot_file )
     return ALL_GOOD;
 }
 
-errors_t make_picture ( const char* dot_file, const char* output_file )
+errors_t make_picture ( const char* dot_file, const char* output_file, int* amount_of_pictures )
 {
     char cmd_command [ CMD_COMMAND_LEN ] = {};
-    sprintf ( cmd_command, "dot %s -T png -o %s", dot_file, output_file );
+    sprintf ( cmd_command, "dot %s -T png -o %s%d.png", dot_file, output_file, *amount_of_pictures );
+
+    ( *amount_of_pictures )++;
     //fprintf ( stderr, "command = '%s'\n", cmd_command );
     system ( cmd_command );
 

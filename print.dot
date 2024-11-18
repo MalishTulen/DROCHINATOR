@@ -1,13 +1,15 @@
 digraph data{
 rankdir = TB;
-node00B92488[ shape = record, label = " {<f0> NODE0(00B92488) | <f1> SKIBIDI_GITLER | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
-node00B924B4[ shape = record, label = " {<f0> NODE1(00B924B4) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
-node00B924E0[ shape = record, label = " {<f0> NODE2(00B924E0) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
-node00B9250C[ shape = record, label = " {<f0> NODE3(00B9250C) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
-node00B92538[ shape = record, label = " {<f0> NODE4(00B92538) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
-node00B92564[ shape = record, label = " {<f0> NODE5(00B92564) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
-node00B92590[ shape = record, label = " {<f0> NODE6(00B92590) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
-node00B925BC[ shape = record, label = " {<f0> NODE7(00B925BC) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
-node00B925E8[ shape = record, label = " {<f0> NODE8(00B925E8) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
-node00B92614[ shape = record, label = " {<f0> NODE9(00B92614) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
+node00EB2488[ shape = record, label = " {<f0> NODE0(00EB2488) | <f1> ball? | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00EB24B4 ) | <f4> ПИЗДА ( 00EB24E0 ) } } "];
+node00EB24B4[ shape = record, label = " {<f0> NODE1(00EB24B4) | <f1> porn | <f2> prev = (00EB2488) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
+node00EB24E0[ shape = record, label = " {<f0> NODE2(00EB24E0) | <f1> SKIBIDI_GITLER | <f2> prev = (00EB2488) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
+node00EB250C[ shape = record, label = " {<f0> NODE3(00EB250C) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
+node00EB2538[ shape = record, label = " {<f0> NODE4(00EB2538) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
+node00EB2564[ shape = record, label = " {<f0> NODE5(00EB2564) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
+node00EB2590[ shape = record, label = " {<f0> NODE6(00EB2590) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
+node00EB25BC[ shape = record, label = " {<f0> NODE7(00EB25BC) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
+node00EB25E8[ shape = record, label = " {<f0> NODE8(00EB25E8) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
+node00EB2614[ shape = record, label = " {<f0> NODE9(00EB2614) | <f1>  | <f2> prev = (D01B0EB7) | { <f3> ДА ( 00000000 ) | <f4> ПИЗДА ( 00000000 ) } } "];
+node00EB2488:<f3>->node00EB24B4
+node00EB2488:<f4>->node00EB24E0
 }
