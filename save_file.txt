@@ -1,0 +1,13 @@
+{ 'b'
+	{ 'a' nil nil }
+	{ 'g'
+		{ 'c' nil nil }
+		{ 'p'
+			{ 'f' nil nil }
+			{ 'stop'
+				{ 'k' nil nil }
+				{ 'SKIBIDI_GITLER' nil nil }
+			}
+		}
+	}
+}

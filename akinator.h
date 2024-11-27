@@ -8,6 +8,7 @@ const int       MAX_INPUT_LENGTH    = 50;
 const int       CMD_COMMAND_LEN     = 50;
 const char      GAY_VALUE[]         = "SKIBIDI_GITLER";
 const char      POISON_STR[]        = "I HATE NIGGERS";
+const char      END_VALUE[]         = "stop";
 const int       LEFT                = 1;
 const int       RIGHT               = 2;
 
@@ -36,14 +37,16 @@ enum errors_t
     CYCLIC_LEFT                 = 6,
     CYCLIC_RIGHT                = 7,
     CYCLIC_PREV                 = 8,
+    BAD_INPUT_CODE              = 9,
+    STOP                        = 69,
 };
 
 struct branch_t
 {
     char              que_or_answ [ MAX_NAME_LEN ];
     branch_t*         prev;
-    branch_t*         positive_result;
-    branch_t*         negative_result;
+    branch_t*         left_branch;
+    branch_t*         right_branch;
 };
 
 struct tree_t
@@ -69,21 +72,38 @@ const long long POISON_VALUE = 0xD01B0EB7;
         {                                                                  \
             fprintf ( stderr, "BAD_SIZE '%s'\n", #ptr );                   \
             return SIZE_UNDER_PLINTUS;                                     \
-        }                                                                  \
+        }
 
-errors_t start_drochinator  ();
-errors_t choose_mode        ( tree_t* ptr_data, FILE* protocol, int* amount_of_pictures );
-errors_t grow_binary_tree   ();
-errors_t tree_checker       ( tree_t* ptr_data );
-errors_t struct_tree_ctor   ( tree_t* ptr_data );
-errors_t create_new_branch  ( tree_t* ptr_data, int direction, branch_t** prev_branch, char* que_or_answ );
-errors_t create_new_node    ( tree_t* ptr_data, branch_t** ptr_prev, FILE* protocol, int* amount_of_pictures );
-errors_t guesser            ( branch_t* ptr_node, tree_t* ptr_data, FILE* protocol, int* amount_of_pictures );
-errors_t func_guesser1      ( int direction, branch_t* ptr_node, tree_t* ptr_data, FILE* protocol, int* amount_of_pictures );
-leaf_t   check_if_leaf      ( branch_t* ptr_node );
+#define QUIT_CHECKER(str)                                                  \
+    if ( strcmp ( str, END_VALUE ) == 0 )                                  \
+        return STOP;
+
+errors_t start_drochinator      ();
+errors_t choose_mode            ( tree_t* ptr_data, int* amount_of_pictures );
+errors_t grow_binary_tree       ();
+errors_t struct_tree_ctor       ( tree_t* ptr_data );
+errors_t scan_tree              ( int direction, branch_t* prev_node, tree_t* ptr_data, FILE* ptr_input_file );
+errors_t default_tree_ctor      ( tree_t* ptr_data );
+errors_t tree_checker           ( tree_t* ptr_data );
+errors_t create_new_branch      ( tree_t* ptr_data, int direction, branch_t** prev_branch, char* que_or_answ );
+errors_t create_new_node        ( tree_t* ptr_data, branch_t** ptr_prev );
+errors_t guesser                ( branch_t* ptr_node, tree_t* ptr_data, int* amount_of_pictures );
+leaf_t   check_if_leaf          ( branch_t* ptr_node );
+errors_t save_if_need           ( tree_t* ptr_data );
+errors_t save_node              ( branch_t* ptr_branch, tree_t* ptr_data, FILE* ptr_save_file, int tab_counter );
+errors_t tabber                 ( int cur_tab_amount, FILE* ptr_save_file );
+errors_t comparer               ( tree_t* ptr_data );
+errors_t get_description        ( tree_t* ptr_data, char* users_input, stack_t* sigh_array );
+errors_t scan_value             ( tree_t* ptr_data, char* user_input, stack_t* sign_array );
+errors_t get_characteristic     ( branch_t* ptr_node, stack_t* sigh_array );
+errors_t print_description      ( tree_t* ptr_data, stack_t* sigh_array, char** users_input );
+errors_t print_characteristic   ( branch_t* ptr_node, stack_t* sigh_array, int* counter );
+errors_t describe_elem          ( tree_t* ptr_data );
+errors_t print_elem_from_stack  ( branch_t* ptr_node, stack_t* sigh_array, int index, int* counter );
+
 int      scan_answer_yes_no ();
 void     delay              ( int ms );
-int      select_mode        ( char* users_input);
+int      select_mode        ();
 
 
 #endif
