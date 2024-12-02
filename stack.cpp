@@ -159,13 +159,13 @@ int StackPop ( stack_t * ptr_stk )
     else
     {
 //fprintf ( stderr, "bef recalloc\n" );
-        if ( ptr_stk->size < ptr_stk->capacity / 2 )
+        /*if ( ptr_stk->size < ptr_stk->capacity / 2 )
         {
         ptr_stk->data_ptr = ( Stack_Elem_Data_t* ) realloc ( ptr_stk->data_ptr, ( ptr_stk->capacity ) / 4 * 3 );
-        }
-        int ruka = ptr_stk->data_ptr [ ptr_stk->size ];
+        }*/
+        int ruka = ptr_stk->data_ptr [ ptr_stk->size - 1 ];
 //fprintf ( stderr, "aft recalloc\n" );
-        printf ("%d", ruka );
+        //printf ("ruka = %d", ruka );
 
 
         *( Stack_Elem_Data_t* )( ( char* ) ptr_stk->data_ptr + ptr_stk->size * sizeof( Stack_Elem_Data_t )) = 0;

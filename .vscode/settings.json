@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "sstream": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "limits": "cpp"
     }
 }

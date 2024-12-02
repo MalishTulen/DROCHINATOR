@@ -158,8 +158,8 @@ int select_mode ()
 
         QUIT_CHECKER ( users_input );
         if ( strcmp ( users_input, "1" ) != 0 && strcmp ( users_input, "2" ) != 0 && strcmp ( users_input, "3" ) != 0 \
-            && strcmp ( users_input, "4" ) != 0 && strcmp ( users_input, "stop" ) != 0 )
-            printf ( "Wrong input! Accepted: '1', '2', '3', '4', \"stop\"\n" );
+            && strcmp ( users_input, "4" ) != 0 && strcmp ( users_input, "5" ) != 0 && strcmp ( users_input, "stop" ) != 0 )
+            printf ( "Wrong input! Accepted: '1', '2', '3', '4', '5' \"stop\"\n" );
         else
             scanning = 0;
     }
@@ -172,6 +172,8 @@ int select_mode ()
         return GET_ELEM_CHARACTERISTICS;
     else if ( strcmp ( users_input, "4" ) == 0 )
         return SEE_DOCUMENTATION;
+    else if ( strcmp ( users_input, "5" ) == 0 )
+        return GRAFIC_PRINT;
     else if ( strcmp ( users_input, "stop" ) == 0 )
         return STOP;
 
@@ -190,6 +192,7 @@ errors_t choose_mode ( tree_t* ptr_data, int* amount_of_pictures )
                         "2 - compare elements from data\n"
                         "3 - check element from data\n"
                         "4 - about programm\n"
+                        "5 - make grafic print\n"
                         "'stop' - to quit\n"
                         "Your input:" );
 
@@ -220,6 +223,13 @@ errors_t choose_mode ( tree_t* ptr_data, int* amount_of_pictures )
             case SEE_DOCUMENTATION:
             {
                 //show_documentation ();
+                break;
+            }
+
+            case GRAFIC_PRINT:
+            {
+                make_grafic_dump ( ptr_data, amount_of_pictures );
+                printf ( "NEW PICTURE CREATED!\n" );
                 break;
             }
 
@@ -492,39 +502,113 @@ errors_t comparer ( tree_t* ptr_data )
     char users_input2 [ MAX_INPUT_LENGTH ] = {};
 
     stack_t sigh_array1 = {};
-    StackCtor ( &sigh_array1, DATA_CAPACITY );
     stack_t sigh_array2 = {};
-    StackCtor ( &sigh_array2, DATA_CAPACITY );
+
+    stack_t* ptr_stk1 = &sigh_array1;
+    stack_t* ptr_stk2 = &sigh_array2;
+
+    StackCtor ( ptr_stk1, DATA_CAPACITY );
+    StackCtor ( ptr_stk2, DATA_CAPACITY );
 
     printf ( "Insert first element:" );
-    scan_value ( ptr_data, users_input1, &sigh_array1 );
+    scan_value ( ptr_data, users_input1, ptr_stk1 );
 
     printf ( "Insert second element:" );
-    scan_value ( ptr_data, users_input2, &sigh_array2 );
+    scan_value ( ptr_data, users_input2, ptr_stk2 );
+
+    StackDump ( &sigh_array1 );
+    StackDump ( &sigh_array2 );
 
     printf ( "Similarities: " );
 
-    int index1 = sigh_array1.size;
-    int index2 = sigh_array2.size;
+    branch_t* index = &ptr_data->ptr_tree [ 0 ];
 
-    for ( int i = 0; i < max ( sigh_array1.size, sigh_array2.size ) ; i++ )
+    int counter = -1;
+    int max_limit = min ( ptr_stk1->size, ptr_stk2->size );
+    int checker_on_equality = 0;
+    while ( counter < max_limit )
     {
-        if ( sigh_array1.data_ptr[ index1 - i ])
-    }
-    while ( index < max ( sigh_array1.capacity, sigh_array2.capacity ) )
-    {
-        index1--;
-        index2--;
-        if ( ( sigh_array1.data_ptr [ index1 ] == users_input2 [ index2 ] ) && ( sigh_array1.data_ptr [ index1 ] != 0 ) )
+//fprintf ( stderr, "counter = %d\n", max_limit );
+        counter++;
+        int dir1 = StackPop ( ptr_stk1 );
+        int dir2 = StackPop ( ptr_stk2 );
+//fprintf ( stderr, "dir1 = %d, dir2 = %d\n ", dir1, dir2 );
+//fprintf ( stderr, "ERROR1\n" );
+        if ( dir1 == dir2 )
         {
-fprintf ( stderr, "CONNECTIoN!\n" );
-            int counter = min ( sigh_array1.size, sigh_array2.size );
-            print_elem_from_stack ( &ptr_data->ptr_tree[ 0 ], &sigh_array1, index, &counter );
-            index++;
+            if ( checker_on_equality == 1 )
+                printf ( ", " );
+
+            checker_on_equality = 1;
+//fprintf ( stderr, "CONNECTIoN!\n" );
+
+            if ( dir1 == RIGHT )
+            {
+                printf ( "%s", index->que_or_answ );
+                index = index->right_branch;
+            }
+            else if ( dir1 == LEFT )
+            {
+                printf ( "not %s", index->que_or_answ );
+                index = index->left_branch;
+            }
+        }
+        else
+        {
+            checker_on_equality = 0;
+            StackPush ( ptr_stk1, dir1 );
+            StackPush ( ptr_stk2, dir2 );
+            break;
         }
     }
 
+    printf ( "\b\b\nDifferences:\nobject1: " );
 
+    branch_t* index1 = index;
+    while ( ptr_stk1->size > 0 )
+    {
+        if ( checker_on_equality == 1 )
+            printf ( ", " );
+
+        checker_on_equality = 1;
+
+        int dir = StackPop ( ptr_stk1 );
+
+        if ( dir == RIGHT )
+            {
+                printf ( "%s", index1->que_or_answ );
+                index1 = index1->right_branch;
+            }
+            else if ( dir == LEFT )
+            {
+                checker_on_equality = 0;
+                printf ( "not %s", index1->que_or_answ );
+                index1 = index1->left_branch;
+            }
+    }
+
+    printf ( "\b\b\nobject2: " );
+    while ( ptr_stk2->size > 0 )
+    {
+        if ( checker_on_equality == 1 )
+            printf ( ", " );
+        checker_on_equality = 1;
+
+        int dir = StackPop ( ptr_stk2 );
+
+        if ( dir == RIGHT )
+            {
+                printf ( "%s", index->que_or_answ );
+                index = index->right_branch;
+            }
+            else if ( dir == LEFT )
+            {
+                checker_on_equality = 0;
+                printf ( "not %s", index->que_or_answ );
+                index = index->left_branch;
+            }
+    }
+    printf ( "\b\b\n" );
 
     return ALL_GOOD;
 }
@@ -661,25 +745,4 @@ errors_t describe_elem ( tree_t* ptr_data )
     return ALL_GOOD;
 }
 
-errors_t print_elem_from_stack ( branch_t* ptr_node, stack_t* sigh_array, int index, int* counter )
-{
-    *(counter) -= 1;
-    if ( *counter > -1 )
-    {
-        if ( *counter == sigh_array->size - index )
-        {
-            printf ( "%s, ", ptr_node->que_or_answ );
-            return ALL_GOOD;
-        }
-        else
-        {
-            if ( sigh_array->data_ptr [ *counter ] == LEFT )
-                print_elem_from_stack ( ptr_node->left_branch, sigh_array, index, counter);
-            else
-                print_elem_from_stack ( ptr_node->right_branch, sigh_array, index, counter);
-        }
-    }
-
-    return ALL_GOOD;
-}
 

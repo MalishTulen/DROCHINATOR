@@ -24,6 +24,7 @@ enum modes_t
     COMPARE_MODE             = 2,
     GET_ELEM_CHARACTERISTICS = 3,
     SEE_DOCUMENTATION        = 4,
+    GRAFIC_PRINT             = 5,
 };
 
 enum errors_t
